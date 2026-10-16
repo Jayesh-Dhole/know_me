@@ -10,26 +10,37 @@ const socials = [
 ] as const;
 ---
 
+<script is:inline>
+  // Hide the hero text before first paint so the intro animation doesn't flash.
+  // If the animation script never runs, show everything after 3s anyway.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('intro');
+    setTimeout(function () {
+      if (!window.__introStarted) document.documentElement.classList.remove('intro');
+    }, 3000);
+  }
+</script>
+
 <header id="top" class="hero wrap">
-  <div class="photo">
+  <div class="photo intro-fade">
     <img src={profile.photo} alt={`Portrait of ${profile.name}`} width="180" height="180" />
   </div>
 
-  <div class="eyebrow">&lt;hello world /&gt;</div>
-  <h1>{profile.name}</h1>
-  <div class="role">{profile.role} at <span>{profile.company}</span></div>
-  <div class="meta">
+  <div class="eyebrow" data-type>&lt;hello world /&gt;</div>
+  <h1 data-scramble>{profile.name}</h1>
+  <div class="role" data-type>{profile.role} at <span>{profile.company}</span></div>
+  <div class="meta intro-fade">
     <span>{profile.stack.join(' · ')}</span>
     <span class="loc"><Icon name="pin" size={14} />{profile.location}</span>
   </div>
-  <p class="lead">{profile.lead}</p>
+  <p class="lead intro-fade">{profile.lead}</p>
 
-  <div class="actions">
+  <div class="actions intro-fade">
     <a href="#work" class="btn solid">view my work</a>
     <a href={profile.resume} class="btn" download><Icon name="download" size={15} />résumé</a>
   </div>
 
-  <ul class="socials">
+  <ul class="socials intro-fade">
     {socials.map((s) => (
       <li>
         <a href={s.href} target={s.icon === 'mail' ? undefined : '_blank'} rel="noopener" aria-label={s.label} title={s.label}>
@@ -88,6 +99,24 @@ const socials = [
   }
   .photo:hover img { filter: none; }
 
+  /* ---------- intro animation ---------- */
+  :global(html.intro) .hero :is([data-type], [data-scramble], .intro-fade) { visibility: hidden; }
+  /* hide instantly, animate only when revealing */
+  .intro-fade { transition: opacity 0.8s ease, transform 0.8s ease; }
+  .intro-fade:global(.pre) { opacity: 0; transform: translateY(12px); transition: none; }
+  .photo.intro-fade:global(.pre) { transform: scale(0.92); }
+  :global(.caret) {
+    display: inline-block;
+    width: max(2px, 0.06em);
+    height: 0.95em;
+    margin-left: 0.08em;
+    vertical-align: -0.1em;
+    background: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+  :global(.glyph) { color: var(--accent); opacity: 0.75; }
+  @keyframes blink { 50% { opacity: 0; } }
+
   /* phones / narrow screens: photo on top, everything stacked */
   @media (max-width: 760px) {
     .hero {
@@ -109,3 +138,93 @@ const socials = [
     .socials { margin-top: 24px; }
   }
 </style>
+
+<script>
+  (window as Window & { __introStarted?: boolean }).__introStarted = true;
+
+  const root = document.documentElement;
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const GLYPHS = '!<>-_/[]{}=+*^?#01$%&';
+  const caret = Object.assign(document.createElement('span'), { className: 'caret' });
+
+  function textNodes(el: HTMLElement) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const out: Text[] = [];
+    while (walker.nextNode()) out.push(walker.currentNode as Text);
+    return out;
+  }
+
+  // Prepare an element for typing: remember its text, empty it, keep its height.
+  function prepareType(el: HTMLElement) {
+    el.style.minHeight = el.offsetHeight + 'px';
+    const parts = textNodes(el).map((node) => ({ node, text: node.textContent ?? '' }));
+    parts.forEach((p) => (p.node.textContent = ''));
+    return { el, parts };
+  }
+
+  async function type(job: ReturnType<typeof prepareType>, speed: number) {
+    for (const { node, text } of job.parts) {
+      node.after(caret);
+      for (let i = 1; i <= text.length; i++) {
+        node.textContent = text.slice(0, i);
+        if (text[i - 1].trim()) await sleep(speed);
+      }
+    }
+    job.el.style.minHeight = '';
+  }
+
+  // "Decode" text: random code glyphs resolve into the real letters, left to right.
+  function scramble(el: HTMLElement, text: string, duration: number) {
+    return new Promise<void>((resolve) => {
+      const start = performance.now();
+      let last = 0;
+      const frame = (now: number) => {
+        const p = Math.min(1, (now - start) / duration);
+        if (now - last > 45 || p === 1) {
+          last = now;
+          const done = Math.floor(p * text.length);
+          el.textContent = text.slice(0, done);
+          for (const ch of text.slice(done)) {
+            if (ch === ' ') { el.append(' '); continue; }
+            const g = document.createElement('span');
+            g.className = 'glyph';
+            g.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+            el.append(g);
+          }
+          el.append(caret);
+        }
+        if (p < 1) requestAnimationFrame(frame);
+        else { el.textContent = text; resolve(); }
+      };
+      requestAnimationFrame(frame);
+    });
+  }
+
+  async function intro(hero: HTMLElement) {
+    const [eyebrow, role] = [...hero.querySelectorAll<HTMLElement>('[data-type]')].map(prepareType);
+    const name = hero.querySelector<HTMLElement>('[data-scramble]')!;
+    const fullName = name.textContent ?? '';
+    name.style.visibility = 'hidden';
+    const [photo, ...fades] = [...hero.querySelectorAll<HTMLElement>('.intro-fade')];
+    [photo, ...fades].forEach((f) => f.classList.add('pre'));
+    root.classList.remove('intro');
+
+    await sleep(200);
+    photo.classList.remove('pre');
+    await type(eyebrow, 45);
+    await sleep(150);
+    name.style.visibility = '';
+    await scramble(name, fullName, 950);
+    await sleep(120);
+    await type(role, 24);
+    for (const f of fades) {
+      f.classList.remove('pre');
+      await sleep(130);
+    }
+    setTimeout(() => caret.remove(), 2200);
+  }
+
+  if (hero && root.classList.contains('intro')) intro(hero);
+  else root.classList.remove('intro');
+</script>
