@@ -1,7 +1,7 @@
 <canvas id="net" aria-hidden="true"></canvas>
 
 <style>
-  #net { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
+  #net { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.9; }
 </style>
 
 <script>
@@ -39,7 +39,7 @@
         const q = pts[j];
         const d = Math.hypot(p.x - q.x, p.y - q.y);
         if (d < LINK) {
-          ctx.strokeStyle = `rgba(93,202,165,${(1 - d / LINK) * 0.1})`;
+          ctx.strokeStyle = `rgba(93,202,165,${(1 - d / LINK) * 0.17})`;
           ctx.lineWidth = 0.7;
           ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
         }
@@ -47,11 +47,11 @@
 
       const md = Math.hypot(p.x - mouse.x, p.y - mouse.y);
       if (md < MOUSE) {
-        ctx.strokeStyle = `rgba(93,202,165,${(1 - md / MOUSE) * 0.18})`;
+        ctx.strokeStyle = `rgba(93,202,165,${(1 - md / MOUSE) * 0.32})`;
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
       }
 
-      ctx.fillStyle = 'rgba(93,202,165,.35)';
+      ctx.fillStyle = 'rgba(93,202,165,.6)';
       ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
     }
     requestAnimationFrame(draw);

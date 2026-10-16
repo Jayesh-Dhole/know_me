@@ -116,7 +116,7 @@ export const projects = [
     context: 'Front-end project',
     description: 'A responsive e-commerce clone built with JavaScript, HTML5, CSS3, and Tailwind CSS.',
     tags: ['javascript', 'html5', 'css3', 'tailwind'],
-    link: 'https://github.com/Jayesh-Dhole/HTML_CSS_PROJECT',
+    link: 'https://github.com/Jayesh-Dhole/Html_Css_Js_Project',
   },
 ];
 
