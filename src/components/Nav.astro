@@ -11,8 +11,8 @@ const links = ['about', 'expertise', 'experience', 'work', 'certifications', 'co
       <span class="close"><Icon name="close" size={22} /></span>
     </button>
     <ul id="menu">
-      {links.map((l, i) => (
-        <li><a href={`#${l}`}><b>{String(i + 1).padStart(2, '0')}</b>{l}</a></li>
+      {links.map((l) => (
+        <li><a href={`#${l}`}>{l}</a></li>
       ))}
     </ul>
   </div>
@@ -35,7 +35,6 @@ const links = ['about', 'expertise', 'experience', 'work', 'certifications', 'co
   ul { display: flex; gap: 26px; list-style: none; font-family: var(--mono); font-size: 13px; color: var(--muted); }
   a { transition: color 0.2s; }
   ul a:hover { color: var(--fg); }
-  b { color: var(--accent); font-weight: 400; margin-right: 4px; }
 
   .toggle { display: none; background: none; border: 0; color: var(--fg); cursor: pointer; padding: 6px; }
   .toggle .close { display: none; }
