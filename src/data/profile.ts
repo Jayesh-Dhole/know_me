@@ -1,5 +1,8 @@
 // All site content lives here. Edit this file to update the portfolio.
 
+// Site base path (e.g. "/Portfolio/") so file links work on GitHub Pages.
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
 export const profile = {
   name: 'Jayesh Dhole',
   role: 'Programmer Analyst',
@@ -8,8 +11,8 @@ export const profile = {
   stack: ['Java', 'Spring Boot', 'Angular'],
   location: 'Pune, India',
   lead: 'I build scalable, secure full-stack applications, from Spring Boot microservices and REST APIs to clean, responsive Angular and React interfaces.',
-  photo: '/images/profile.png',
-  resume: '/Jayesh_Dhole_Resume.pdf',
+  photo: `${base}images/profile.png`,
+  resume: `${base}Jayesh_Dhole_Resume.pdf`,
   email: 'jayeshdhole95@gmail.com',
   socials: {
     github: 'https://github.com/Jayesh-Dhole',

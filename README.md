@@ -1,10 +1,10 @@
-# Jayesh Dhole · Portfolio
+﻿# Jayesh Dhole Â· Portfolio
 
-Personal portfolio built with [Astro](https://astro.build). Live at **https://jayesh-dhole.github.io**.
+Personal portfolio built with [Astro](https://astro.build). Live at **https://jayesh-dhole.github.io/Portfolio/**.
 
 ## Editing content
 
-All text lives in `src/data/profile.ts`. The photo is `public/images/profile.png` and the résumé is `public/Jayesh_Dhole_Resume.pdf`.
+All text lives in `src/data/profile.ts`. The photo is `public/images/profile.png` and the rÃ©sumÃ© is `public/Jayesh_Dhole_Resume.pdf`.
 
 Certifications are fetched from Credly at build time. The site rebuilds every Monday, so new badges appear on their own.
 
@@ -15,7 +15,7 @@ corepack yarn@1.22.22 install
 corepack yarn@1.22.22 dev
 ```
 
-Then open http://localhost:4321.
+Then open http://localhost:4321/Portfolio/.
 
 ## Deploying
 
