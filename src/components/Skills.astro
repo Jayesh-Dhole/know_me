@@ -1,0 +1,22 @@
+---
+import { skills } from '../data/profile';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="expertise" class="wrap reveal">
+  <SectionHead num="02" kicker="expertise" title="What I work with" />
+  <div class="grid">
+    {skills.map((s) => (
+      <div>
+        <h3 class="label">{s.group}</h3>
+        <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px 48px; }
+  h3 { font-weight: 400; margin-bottom: 12px; }
+  li { list-style: none; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+</style>

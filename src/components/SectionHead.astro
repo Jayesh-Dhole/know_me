@@ -1,0 +1,52 @@
+---
+interface Props {
+  num: string;
+  kicker: string;
+  title: string;
+  subtitle?: string;
+}
+const { num, kicker, title, subtitle } = Astro.props;
+---
+
+<header class="shead">
+  <span class="ghost" aria-hidden="true">{num}</span>
+  <div class="kicker"><span>{num}</span>{kicker}</div>
+  <div class="row">
+    <h2>{title}</h2>
+    <slot />
+  </div>
+  {subtitle && <p class="subtitle">{subtitle}</p>}
+</header>
+
+<style>
+  .shead { position: relative; margin-bottom: 44px; }
+  .ghost {
+    position: absolute;
+    right: 0;
+    top: -18px;
+    font-family: var(--serif);
+    font-size: clamp(96px, 15vw, 180px);
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(93, 202, 165, 0.13);
+    pointer-events: none;
+    user-select: none;
+  }
+  .kicker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .kicker::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
+  .kicker span { color: var(--fg); }
+  .kicker span::after { content: ' —'; color: var(--muted); }
+  .row { position: relative; display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px 24px; margin-top: 10px; }
+  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 62px); line-height: 1.05; letter-spacing: -0.01em; }
+  .subtitle { position: relative; margin-top: 12px; color: var(--muted); max-width: 560px; }
+</style>

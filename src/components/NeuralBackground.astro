@@ -1,0 +1,65 @@
+<canvas id="net" aria-hidden="true"></canvas>
+
+<style>
+  #net { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.55; }
+</style>
+
+<script>
+  const c = document.getElementById('net') as HTMLCanvasElement;
+  const ctx = c.getContext('2d')!;
+  const dpr = window.devicePixelRatio || 1;
+  const LINK = 140;
+  const MOUSE = 180;
+  type P = { x: number; y: number; vx: number; vy: number; r: number };
+  let W = 0, H = 0, pts: P[] = [];
+  const mouse = { x: -999, y: -999 };
+
+  function size() {
+    W = innerWidth; H = innerHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    c.style.width = W + 'px'; c.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.min(90, Math.floor((W * H) / 16000));
+    pts = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+      r: Math.random() * 1.4 + 0.6,
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+
+      for (let j = i + 1; j < pts.length; j++) {
+        const q = pts[j];
+        const d = Math.hypot(p.x - q.x, p.y - q.y);
+        if (d < LINK) {
+          ctx.strokeStyle = `rgba(93,202,165,${(1 - d / LINK) * 0.1})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+      }
+
+      const md = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+      if (md < MOUSE) {
+        ctx.strokeStyle = `rgba(93,202,165,${(1 - md / MOUSE) * 0.18})`;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+      }
+
+      ctx.fillStyle = 'rgba(93,202,165,.35)';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  addEventListener('resize', size);
+  addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  document.addEventListener('mouseleave', () => { mouse.x = mouse.y = -999; });
+  size();
+  draw();
+</script>

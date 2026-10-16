@@ -1,0 +1,69 @@
+---
+import Icon from './Icon.astro';
+const links = ['about', 'expertise', 'experience', 'work', 'certifications', 'contact'];
+---
+
+<nav>
+  <div class="bar">
+    <a href="#top" class="logo">Jayesh<span>.</span></a>
+    <button class="toggle" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
+      <span class="open"><Icon name="menu" size={22} /></span>
+      <span class="close"><Icon name="close" size={22} /></span>
+    </button>
+    <ul id="menu">
+      {links.map((l, i) => (
+        <li><a href={`#${l}`}><b>{String(i + 1).padStart(2, '0')}</b>{l}</a></li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar {
+    max-width: 1180px; margin: 0 auto; padding: 0 var(--pad);
+    display: flex; justify-content: space-between; align-items: center; height: 64px;
+  }
+  .logo { font-family: var(--serif); font-size: 26px; }
+  .logo span { color: var(--accent); }
+  ul { display: flex; gap: 26px; list-style: none; font-family: var(--mono); font-size: 13px; color: var(--muted); }
+  a { transition: color 0.2s; }
+  ul a:hover { color: var(--fg); }
+  b { color: var(--accent); font-weight: 400; margin-right: 4px; }
+
+  .toggle { display: none; background: none; border: 0; color: var(--fg); cursor: pointer; padding: 6px; }
+  .toggle .close { display: none; }
+
+  @media (max-width: 960px) {
+    .toggle { display: block; }
+    ul {
+      display: none;
+      position: absolute; top: 64px; left: 0; right: 0;
+      flex-direction: column; gap: 0;
+      background: rgba(0, 0, 0, 0.96);
+      border-bottom: 1px solid var(--line);
+      padding: 8px var(--pad) 20px;
+    }
+    ul a { display: block; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    nav.open ul { display: flex; }
+    nav.open .toggle .open { display: none; }
+    nav.open .toggle .close { display: block; }
+  }
+</style>
+
+<script>
+  const nav = document.querySelector('nav')!;
+  const btn = nav.querySelector('.toggle')!;
+  btn.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  nav.querySelectorAll('ul a').forEach((a) => a.addEventListener('click', () => nav.classList.remove('open')));
+</script>

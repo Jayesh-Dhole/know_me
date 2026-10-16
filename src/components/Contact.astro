@@ -1,0 +1,55 @@
+---
+import { profile } from '../data/profile';
+import SectionHead from './SectionHead.astro';
+import Icon from './Icon.astro';
+
+const strip = (u: string) => u.replace(/^https?:\/\/(www\.)?/, '');
+const contacts = [
+  { icon: 'mail', label: 'email', value: profile.email, href: `mailto:${profile.email}` },
+  { icon: 'linkedin', label: 'linkedin', value: strip(profile.socials.linkedin), href: profile.socials.linkedin },
+  { icon: 'github', label: 'github', value: strip(profile.socials.github), href: profile.socials.github },
+  { icon: 'award', label: 'credly', value: strip(profile.socials.credly), href: profile.socials.credly },
+] as const;
+---
+
+<section id="contact" class="wrap reveal">
+  <SectionHead num="06" kicker="contact" title="Let's build something together" subtitle="Open to full-stack Java roles and interesting projects. The quickest way to reach me is email." />
+
+  <div class="grid">
+    {contacts.map((c) => (
+      <a class="card" href={c.href} target={c.icon === 'mail' ? undefined : '_blank'} rel="noopener">
+        <span class="icon"><Icon name={c.icon} size={22} /></span>
+        <span class="label">{c.label}</span>
+        <span class="value">{c.value}</span>
+        <span class="arrow">↗</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© {new Date().getFullYear()} {profile.name}</span>
+    <span>designed &amp; built with astro</span>
+  </div>
+</footer>
+
+<style>
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 16px; }
+  .card {
+    position: relative;
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 24px 22px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .icon { color: var(--accent); margin-bottom: 14px; }
+  .value { font-size: 17px; overflow-wrap: anywhere; line-height: 1.4; }
+  .arrow { position: absolute; top: 20px; right: 20px; font-family: var(--mono); color: var(--muted); transition: 0.3s; }
+  .card:hover .arrow { color: var(--accent); transform: translate(3px, -3px); }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0; }
+  .foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+</style>

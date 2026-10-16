@@ -1,0 +1,31 @@
+---
+import { about } from '../data/profile';
+import SectionHead from './SectionHead.astro';
+---
+
+<section id="about" class="wrap reveal">
+  <SectionHead num="01" kicker="about" title="About me" />
+  <div class="grid">
+    <div class="copy">
+      {about.paragraphs.map((p, i) => <p class={i > 0 ? 'muted' : ''}>{p}</p>)}
+    </div>
+    <dl class="facts">
+      {about.facts.map((f) => (
+        <div>
+          <dt class="label">{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(40px, 7vw, 80px); align-items: start; }
+  .copy p + p { margin-top: 22px; }
+  .facts { border-left: 1px solid var(--line); padding-left: 28px; font-size: 16px; display: grid; gap: 20px; }
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+    .facts { border-left: 0; padding-left: 0; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  }
+</style>

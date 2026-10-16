@@ -1,0 +1,65 @@
+---
+import { profile, otherCertifications } from '../data/profile';
+import { getCredlyBadges } from '../lib/credly';
+import SectionHead from './SectionHead.astro';
+
+const username = profile.socials.credly.split('/users/')[1];
+const badges = await getCredlyBadges(username);
+const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+---
+
+<section id="certifications" class="wrap reveal">
+  <SectionHead num="05" kicker="certifications" title="Badges and certifications" subtitle="Verified credentials, pulled live from my Credly profile.">
+    <a class="all" href={profile.socials.credly} target="_blank" rel="noopener">view on credly ↗</a>
+  </SectionHead>
+
+  <div class="grid">
+    {badges.map((b) => (
+      <a class="badge" href={b.url} target="_blank" rel="noopener" title={`Verify ${b.name} on Credly`}>
+        <img src={b.image} alt={b.name} width="100" height="100" loading="lazy" />
+        <h3>{b.name}</h3>
+        <div class="meta">{b.issuer}</div>
+        <div class="meta date">{fmt(b.issuedAt)}</div>
+      </a>
+    ))}
+  </div>
+
+  {otherCertifications.length > 0 && (
+    <>
+      <h3 class="subhead">Also certified</h3>
+      {otherCertifications.map((c) => (
+        <a href={c.link} target="_blank" rel="noopener" class="other">
+          <span>{c.name}</span><span class="issuer">{c.issuer} ↗</span>
+        </a>
+      ))}
+    </>
+  )}
+</section>
+
+<style>
+  .all { margin-left: auto; margin-bottom: 8px; font-family: var(--mono); font-size: 13px; color: var(--muted); transition: color 0.2s; }
+  .all:hover { color: var(--accent); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); gap: 16px; }
+  .badge {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 28px 16px 22px; border: 1px solid var(--line); background: var(--card);
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .badge:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .badge img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 18px; }
+  .badge h3 { font-family: var(--serif); font-weight: 500; font-size: 18px; line-height: 1.3; }
+  .meta { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 10px; }
+  .date { margin-top: 2px; color: var(--accent); opacity: 0.8; }
+
+  .other { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 20px; padding: 16px 0; border-bottom: 1px solid var(--line); transition: color 0.2s; }
+  .other:hover { color: var(--accent); }
+  .issuer { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 420px) {
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .badge { padding: 20px 10px 16px; }
+    .badge img { width: 76px; height: 76px; }
+    .badge h3 { font-size: 16px; }
+  }
+</style>
