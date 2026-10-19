@@ -1,10 +1,10 @@
-﻿# Jayesh Dhole Â· Portfolio
+﻿# Jayesh Dhole · Portfolio
 
 Personal portfolio built with [Astro](https://astro.build). Live at **https://jayesh-dhole.github.io/Portfolio/**.
 
 ## Editing content
 
-All text lives in `src/data/profile.ts`. The photo is `public/images/profile.png` and the rÃ©sumÃ© is `public/Jayesh_Dhole_Resume.pdf`.
+All text lives in `src/data/profile.ts`. The photo is `public/images/profile.png` and the résumé is `public/Jayesh_Dhole_Resume.pdf`.
 
 Certifications are fetched from Credly at build time. The site rebuilds every Monday, so new badges appear on their own.
 

@@ -13,7 +13,7 @@ const contacts = [
 ---
 
 <section id="contact" class="wrap reveal">
-  <SectionHead num="06" kicker="contact" title="Let's build something together" subtitle="Open to full-stack Java roles and interesting projects. The quickest way to reach me is email." />
+  <SectionHead num="06" kicker="// ping jayesh" title="Contact" tagline="Let's build something together. My inbox responds faster than my CI pipeline." />
 
   <div class="grid">
     {contacts.map((c) => (
@@ -42,6 +42,8 @@ const contacts = [
     padding: 24px 22px;
     border: 1px solid var(--line);
     background: var(--card);
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
     transition: border-color 0.3s, transform 0.3s;
   }
   .card:hover { border-color: var(--accent); transform: translateY(-4px); }

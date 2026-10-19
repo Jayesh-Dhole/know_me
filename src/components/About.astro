@@ -4,7 +4,7 @@ import SectionHead from './SectionHead.astro';
 ---
 
 <section id="about" class="wrap reveal">
-  <SectionHead num="01" kicker="about" title="About me" />
+  <SectionHead num="01" kicker="// whoami" title="About" tagline="The short version. The long one needs coffee." />
   <div class="grid">
     <div class="copy">
       {about.paragraphs.map((p, i) => <p class={i > 0 ? 'muted' : ''}>{p}</p>)}

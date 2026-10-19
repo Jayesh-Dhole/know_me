@@ -24,8 +24,11 @@ const socials = [
 <header id="top" class="hero wrap">
   <div class="eyebrow" data-type>&lt;hello world /&gt; <span>I'm</span></div>
   <h1 data-scramble>{profile.name}</h1>
-  <div class="role" data-type>{profile.role} at <span>{profile.company}</span></div>
+  <div class="role" data-type>
+    {profile.headline.split('*').map((part, i) => (i % 2 ? <span>{part}</span> : part))}
+  </div>
   <div class="meta intro-fade">
+    <span class="job">{profile.role.toLowerCase()} @ {profile.company.toLowerCase()}</span>
     <span>{profile.stack.join(' · ')}</span>
     <span class="loc"><Icon name="pin" size={14} />{profile.location}</span>
   </div>
@@ -62,6 +65,7 @@ const socials = [
   h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(46px, 8vw, 96px); line-height: 1; letter-spacing: -0.01em; }
   .role { font-family: var(--serif); font-size: clamp(20px, 2.6vw, 28px); color: var(--muted); margin-top: 16px; }
   .role span { color: var(--fg); }
+  .job { color: var(--fg); }
   .meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--mono); font-size: 13px; color: var(--accent); margin-top: 10px; }
   .loc { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
   .lead { max-width: 560px; margin: 32px 0 40px; color: var(--muted); }

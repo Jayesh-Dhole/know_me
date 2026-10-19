@@ -9,7 +9,7 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'sho
 ---
 
 <section id="certifications" class="wrap reveal">
-  <SectionHead num="05" kicker="certifications" title="Badges and certifications" subtitle="Verified credentials, pulled live from my Credly profile.">
+  <SectionHead num="05" kicker="// verify --credentials" title="Certifications" tagline="Proof that I actually read the docs. Verified live on Credly.">
     <a class="all" href={profile.socials.credly} target="_blank" rel="noopener">view on credly ↗</a>
   </SectionHead>
 
@@ -44,6 +44,7 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'sho
   .badge {
     display: flex; flex-direction: column; align-items: center; text-align: center;
     padding: 28px 16px 22px; border: 1px solid var(--line); background: var(--card);
+    backdrop-filter: blur(var(--card-blur)); -webkit-backdrop-filter: blur(var(--card-blur));
     transition: border-color 0.3s, transform 0.3s;
   }
   .badge:hover { border-color: var(--accent); transform: translateY(-4px); }

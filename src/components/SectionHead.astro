@@ -3,9 +3,9 @@ interface Props {
   num: string;
   kicker: string;
   title: string;
-  subtitle?: string;
+  tagline?: string;
 }
-const { num, kicker, title, subtitle } = Astro.props;
+const { num, kicker, title, tagline } = Astro.props;
 ---
 
 <header class="shead">
@@ -15,20 +15,20 @@ const { num, kicker, title, subtitle } = Astro.props;
     <h2>{title}</h2>
     <slot />
   </div>
-  {subtitle && <p class="subtitle">{subtitle}</p>}
+  {tagline && <p class="tagline">{tagline}</p>}
 </header>
 
 <style>
-  .shead { position: relative; margin-bottom: 44px; }
+  .shead { position: relative; margin-bottom: 52px; }
   .ghost {
     position: absolute;
     right: 0;
-    top: -18px;
+    top: -24px;
     font-family: var(--serif);
-    font-size: clamp(96px, 15vw, 180px);
+    font-size: clamp(110px, 17vw, 210px);
     line-height: 1;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(93, 202, 165, 0.13);
+    -webkit-text-stroke: 1px rgba(93, 202, 165, 0.14);
     pointer-events: none;
     user-select: none;
   }
@@ -39,14 +39,27 @@ const { num, kicker, title, subtitle } = Astro.props;
     gap: 12px;
     font-family: var(--mono);
     font-size: 12px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0.12em;
     color: var(--accent);
   }
   .kicker::before { content: ''; width: 28px; height: 1px; background: var(--accent); }
   .kicker span { color: var(--fg); }
   .kicker span::after { content: ' —'; color: var(--muted); }
-  .row { position: relative; display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px 24px; margin-top: 10px; }
-  h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 62px); line-height: 1.05; letter-spacing: -0.01em; }
-  .subtitle { position: relative; margin-top: 12px; color: var(--muted); max-width: 560px; }
+  .row { position: relative; display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px 24px; margin-top: 6px; }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(60px, 10vw, 120px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    position: relative;
+    margin-top: 14px;
+    max-width: 620px;
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.4;
+    color: var(--muted);
+  }
 </style>

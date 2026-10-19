@@ -4,10 +4,10 @@ import SectionHead from './SectionHead.astro';
 ---
 
 <section id="expertise" class="wrap reveal">
-  <SectionHead num="02" kicker="expertise" title="What I work with" />
+  <SectionHead num="02" kicker="// stack --list" title="Expertise" tagline="The toolbox. Sharpened by day, debugged by night." />
   <div class="grid">
     {skills.map((s) => (
-      <div>
+      <div class="group">
         <h3 class="label">{s.group}</h3>
         <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
       </div>
@@ -16,7 +16,27 @@ import SectionHead from './SectionHead.astro';
 </section>
 
 <style>
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px 48px; }
-  h3 { font-weight: 400; margin-bottom: 12px; }
-  li { list-style: none; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+  .group {
+    padding: 26px 24px 28px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    backdrop-filter: blur(var(--card-blur));
+    -webkit-backdrop-filter: blur(var(--card-blur));
+    transition: border-color 0.3s;
+  }
+  .group:hover { border-color: rgba(93, 202, 165, 0.35); }
+  h3 { font-weight: 400; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  h3::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(93, 202, 165, 0.15); }
+  ul { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
+  li {
+    padding: 7px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    font-size: 16px;
+    line-height: 1.4;
+    background: rgba(255, 255, 255, 0.02);
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+  }
+  li:hover { border-color: var(--accent); color: var(--accent); background: rgba(93, 202, 165, 0.06); }
 </style>

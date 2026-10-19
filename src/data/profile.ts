@@ -8,6 +8,8 @@ export const profile = {
   role: 'Programmer Analyst',
   company: 'Cognizant',
   title: 'Full-stack Java developer',
+  // Hero one-liner. Words wrapped in *asterisks* are highlighted.
+  headline: 'Turning coffee into *clean Java* and ideas into *real products*.',
   stack: ['Java', 'Spring Boot', 'Angular'],
   location: 'Pune, India',
   lead: 'I build scalable, secure full-stack applications, from Spring Boot microservices and REST APIs to clean, responsive Angular and React interfaces.',
