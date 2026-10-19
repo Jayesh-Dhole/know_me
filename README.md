@@ -1,6 +1,6 @@
 ﻿# Jayesh Dhole · Portfolio
 
-Personal portfolio built with [Astro](https://astro.build). Live at **https://jayesh-dhole.github.io/Portfolio/**.
+Personal portfolio built with [Astro](https://astro.build). Live at **https://jayesh-dhole.github.io/know_me/**.
 
 ## Editing content
 
@@ -15,7 +15,7 @@ corepack yarn@1.22.22 install
 corepack yarn@1.22.22 dev
 ```
 
-Then open http://localhost:4321/Portfolio/.
+Then open http://localhost:4321/know_me/.
 
 ## Deploying
 
